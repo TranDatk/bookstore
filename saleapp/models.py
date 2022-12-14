@@ -131,13 +131,13 @@ if __name__ == '__main__':
 
         # import hashlib
         # password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
-        # u = User(name='Nhân viên kho', username='nhanvienkho', password=password, user_role=UserRole.WAREHOUSE_MANGER,
+        # u = User(name='Quản trị viên', username='admin', password=password, user_role=UserRole.ADMIN,
         #          avatar='https://res.cloudinary.com/dcyzg2k36/image/upload/v1670940795/avatar_2_aceapm.jpg')
         # db.session.add(u)
         # db.session.commit()
-        # c1 = book_author(book_id='1', author_id='1')
-        # c2 = book_author(book_id='2', author_id='3')
-        # c3 = book_author(book_id='3', author_id='2')
+        # c1 = Author(book_id='1', author_id='1')
+        # c2 = Author(book_id='2', author_id='3')
+        # c3 = Author(book_id='3', author_id='2')
         # db.session.add_all([c1, c2, c3])
         # db.session.commit()
 
