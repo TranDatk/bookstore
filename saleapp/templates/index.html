@@ -1,0 +1,25 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+    {% if books %}
+    <div class="row">
+        {% for b in books %}
+        <div class="col-md-3 col-sm-12" style="padding:1rem;">
+            <div class="card">
+                <img class="card-img-top" src="{{ b.image }}" alt="{{ b.name }}">
+                <div class="card-body">
+                    <h4 class="card-title">{{ b.name }}</h4>
+                    <p class="card-text">{{ "{:,.1f}".format(b.price) }} VNĐ</p>
+                    <a href="/books/{{b.id}}" class="btn-dathang">Xem chi tiết</a>
+                    <a href="javascript:;" onclick="addToCart({{b.id}}, '{{b.name}}', {{b.price}})" class="btn-dathang">Đặt hàng</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-danger">Không có sản phẩm nào!</p>
+    {% endif %}
+
+{% endblock %}

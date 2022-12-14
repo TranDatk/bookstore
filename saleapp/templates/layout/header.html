@@ -1,0 +1,44 @@
+<nav style="margin:0px 0px 30px 0px;" class="navbar navbar-expand-sm navbar-light">
+    <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img class="logo" src="https://res.cloudinary.com/dcyzg2k36/image/upload/v1670208464/NH__S_CH_VIOLET_free-file_evi4oe.png" alt="" class="logo"/></a>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav me-auto  align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Trang chủ</a>
+                    </li>
+                    {% for cate in categories %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/?category_id={{ cate.id }}">{{ cate.name }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link text-success" href="/login">
+                            <img src="{{ current_user.avatar }}" width="40" class="rounded-circle" alt="{{ current_user.name }}" />
+                            Chào {{ current_user.name }}!
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="text-align:center" class="nav-link text-danger" href="/logout">Đăng xuất</a>
+                    </li>
+                    {% else %}
+                     <li class="nav-item">
+                        <a style="text-align:center" class="nav-link text-success" href="/login">Đăng nhập</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="/register">Đăng ký</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/cart">&#128722; Đặt online <span class="badge bg-danger cart-counter">{{ cart.total_quantity }}</span></a>
+                    </li>
+
+                </ul>
+            </div>
+         <form class="d-flex" action="/">
+                    <input class="form-control me-2" name="keyword" type="text" placeholder="Nhập từ khóa...">
+                    <button class="btn btn-primary bg-secondary btn-1" type="submit">Tìm</button>
+                </form>
+    </div>
+</nav>

@@ -1,0 +1,101 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<h1 class="text-center text-success">THỐNG KÊ - BÁO CÁO</h1>
+
+<div class="row">
+    <div class="col-md-5 col-sm-12">
+        <table class="table">
+            <tr>
+                <th>Tháng</th>
+                <th>Danh mục</th>
+                <th>Doanh thu</th>
+            </tr>
+            {% for s in stats %}
+            <tr>
+                <td>{{ s[1] }}</td>
+                <td>{{ s[0] }}</td>
+                <td>{{ s[2] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-7 col-sm-12">
+        <form>
+            <div class="form-group">
+                <input type="text" placeholder="Nhập từ khóa" name="kw" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Từ ngày</label>
+                <input type="date" name="from_date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Đến ngày</label>
+                <input type="date" name="to_date" class="form-control" />
+            </div>
+            <div>
+                <input type="submit" value="Lọc dữ liệu" class="btn btn-info" />
+            </div>
+        </form>
+        <canvas id="revenueStats"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5 col-sm-12">
+        <table class="table">
+            <tr>
+                <th>Tháng</th>
+                <th>Số sách bán được</th>
+
+            </tr>
+            {% for statsbook in statsbook %}
+            <tr>
+                <td>{{ statsbook[0] }}</td>
+                <td>{{ statsbook[1] }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-7 col-sm-12">
+        <form>
+            <div class="form-group">
+                <input type="text" placeholder="Nhập từ khóa" name="keyword" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Từ ngày</label>
+                <input type="date" name="from_month" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Đến ngày</label>
+                <input type="date" name="to_month" class="form-control" />
+            </div>
+            <div>
+                <input type="submit" value="Lọc dữ liệu" class="btn btn-info" />
+            </div>
+        </form>
+        <canvas id="revenueStats1"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/my-chart.js') }}"></script>
+<script>
+let data = [], labels=[];
+let data1 = [], labels1=[];
+
+  {% for statsbook in statsbook %}
+    data1.push({{ statsbook[1] }})
+    labels1.push('{{ statsbook[0] }}')
+  {% endfor %}
+
+  {% for s in stats %}
+    data.push({{ s[2] }})
+    labels.push('{{ s[1] }}')
+  {% endfor %}
+  window.onload = function() {
+    drawRevenueStats(labels, data)
+    drawRevenueStats1(labels1,data1)
+  }
+</script>
+{% endblock %}

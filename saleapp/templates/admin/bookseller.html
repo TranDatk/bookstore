@@ -1,0 +1,387 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<style>
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 1200px)
+{
+  .container {
+    max-width: 1140px;
+  }
+}
+.d-flex {
+  display: flex;
+  flex-direction: row;
+  background: #f6f6f6;
+  border-radius: 0 0 5px 5px;
+  padding: 25px;
+}
+form {
+  flex: 4;
+}
+.Yorder {
+  flex: 2;
+}
+.title {
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0, #5195A8), color-stop(100, #70EAFF));
+  background: -moz-linear-gradient(top left, #5195A8 0%, #70EAFF 100%);
+  background: -ms-linear-gradient(top left, #5195A8 0%, #70EAFF 100%);
+  background: -o-linear-gradient(top left, #5195A8 0%, #70EAFF 100%);
+  background: linear-gradient(to bottom right, #5195A8 0%, #70EAFF 100%);
+  border-radius: 5px 5px 0 0 ;
+  padding: 20px;
+  color: #f6f6f6;
+}
+h2 {
+  margin: 0;
+  padding-left: 15px;
+}
+.required {
+  color: red;
+}
+label {
+  display: block;
+  margin: 15px;
+}
+table {
+  display: block;
+  margin: 15px;
+}
+label>span {
+  float: left;
+  width: 25%;
+  margin-top: 0,5rem;
+  padding-right: 10px;
+}
+input[type="email"]
+{
+  width: 70%;
+  height: 30px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #dadada;
+  color: #888;
+}
+select
+{
+  width: 70%;
+  height: 30px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #dadada;
+  color: #888;
+}
+input[type="text"] {
+  width: 70%;
+  height: 30px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #dadada;
+  color: #888;
+}
+input[type="tel"]
+{
+  width: 70%;
+  height: 30px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #dadada;
+  color: #888;
+}
+select {
+  width: 72%;
+  height: 45px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+.Yorder {
+  margin-top: 15px;
+  height: 600px;
+  padding: 20px;
+  border: 1px solid #dadada;
+}
+table {
+  margin: 0;
+  padding: 0;
+}
+th {
+  border-bottom: 1px solid #dadada;
+  padding: 10px 0;
+}
+tr>td:nth-child(1) {
+  text-align: left;
+  color: #2d2d2a;
+}
+tr>td:nth-child(2) {
+  text-align: right;
+  color: #52ad9c;
+}
+td {
+  border-bottom: 1px solid #dadada;
+  padding: 25px 25px 25px 0;
+}
+p {
+  display: block;
+  color: #888;
+  margin: 0;
+  padding-left: 25px;
+}
+.Yorder>div {
+  padding: 15px 0;
+}
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 30px;
+  background: #52ad9c;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+}
+button:hover {
+  cursor: pointer;
+  background: #428a7d;
+}
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+
+</style>
+ {% if current_user.is_authenticated %}
+<body>
+<div class="container">
+    <div class="title">
+        <h2> Phiếu đặt sách </h2>
+    </div>
+    <div class="d-flex">
+        <form action="" method="">
+            <label>
+                <span class="fname"> Họ và tên<span class="required"> * </span></span>
+                <input type="text" id="chuatroi" name="fname" onchange="updateInputTenKhachHang(this.value)">
+            </label>
+            <label>
+                <span> Địa chỉ <span class="required"> * </span></span>
+                <input type="text" name="houseadd" onchange="updateInputDiaChi(this.value)" \
+                       placeholder="Số nhà/Đường/Phường/Quận/Thành phố" required>
+            </label>
+            <label>
+                <span> Số điện thoại <span class="required">*</span></span>
+                <input type="tel" name="city">
+            </label>
+            <label>
+                <span> Tên sách <span class="required">*</span></span>
+                <div class="autocomplete" style="width:70%;">
+                    <input id="myInput" type="text" name="myCountry" onclick="updateInputSanPham(this.value)" \
+                           placeholder="Nhập tên sách">
+                </div>
+            </label>
+        </form>
+        <div class="Yorder">
+            <table>
+                <tr>
+                    <th colspan="2" style="font-size:20px;">Hóa đơn
+                        <p style="font-size:15px; padding-left: 0px">Ngày lập: <span id='datenow'></span></p>
+                        <p style="font-size:15px; padding-left: 0px">Nhân viên lập: <span>{{current_user.name}}</span></p>
+                    </th>
+                </tr>
+                <tr>
+                    <td> Tên khách hàng</td>
+                    <td id="Name_cus"></td>
+                </tr>
+                <tr>
+                    <td> Địa chỉ</td>
+                    <td id="address_cus"></td>
+                </tr>
+                <tr>
+                    <td>Tên sản phẩm </td>
+                    <td id="Name_product"> </td>
+                    <td><span><input style="width:40px;" type="number" min="0"/></span></td>
+                </tr>
+                <tr>
+                    <td> Tổng tiền:</td>
+                    <td> 0 VND</td>
+                </tr>
+            </table>
+            <br>
+            <div>
+                <input type="radio" name="dbt" value="dbt" checked> Thanh toán tiền mặt
+            </div>
+            <div>
+                <input type="radio" name="dbt" value="cd"> Thanh toán chuyển khoản
+            </div>
+            <button type="button"> Thanh toán</button>
+        </div>
+    </div>
+</div>
+</body>
+{% endif %}
+</html>
+
+<script>
+n =  new Date();
+    y = n.getFullYear();
+    m = n.getMonth() + 1;
+    d = n.getDate();
+    document.getElementById("datenow").innerHTML = m + "/" + d + "/" + y;
+
+function updateInputSanPham(ish) {
+    document.getElementById("Name_product").innerHTML = ish;
+}
+
+function updateInputTenKhachHang(ish) {
+    if(ish.length > 0)
+        document.getElementById("Name_cus").innerHTML = ish;
+}
+
+function updateInputDiaChi(ish) {
+    if(ish.length > 0)
+        document.getElementById("address_cus").innerHTML = ish;
+}
+
+var sach = ["Những đứa trẻ đuổi theo tinh tú", "5 cm / s"];
+
+autocomplete(document.getElementById("myInput"), sach);
+
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+              b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+      x[i].parentNode.removeChild(x[i]);
+    }
+  }
+}
+/*execute a function when someone clicks in the document:*/
+document.addEventListener("click", function (e) {
+    closeAllLists(e.target);
+});
+}
+
+
+</script>
+<script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+
+
+{% endblock body %}
